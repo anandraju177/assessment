@@ -1,0 +1,31 @@
+import pandas as pd
+import numpy as np
+import os
+from pandas import DataFrame
+
+bmidata=[{"Gender": "Male", "HeightCm": 171, "WeightKg": 96 }, { "Gender": "Male", "HeightCm": 161, "WeightKg":
+85 }, { "Gender": "Male", "HeightCm": 180, "WeightKg": 77 }, { "Gender": "Female", "HeightCm": 166,
+"WeightKg": 62}, {"Gender": "Female", "HeightCm": 150, "WeightKg": 70}, {"Gender": "Female",
+"HeightCm": 167, "WeightKg": 82}] 
+df = DataFrame(bmidata,columns=['Gender','HeightCm','WeightKg'])   
+df['HeightCm']=df['HeightCm']/100
+df.columns = [df.columns.values[0], 'Height','Weight']
+pd.to_numeric(df['Height'])
+pd.to_numeric(df['Weight'])
+df['Height^2']=df['Height']*df['Height']
+df['BMI'] =df['Weight'] / df['Height^2']
+
+df.loc[df['BMI'] <= 18.4, 'BMI Category'] = 'Underweight'  
+df.loc[(df['BMI'] >18.5) & (df['BMI'] <= 24.9), 'BMI Category'] = 'Normal weight'
+df.loc[(df['BMI'] >25) & (df['BMI'] <= 30), 'BMI Category']='Over weight'
+df.loc[(df['BMI'] >30) & (df['BMI'] <= 34.9), 'BMI Category']= 'Moderately Obese'
+df.loc[(df['BMI'] >35) & (df['BMI'] <= 39.9), 'BMI Category']='Severely Obese'
+df.loc[df['BMI'] >= 40, 'BMI Category'] = 'Very Severely obese'
+
+df.loc[df['BMI'] <= 18.4, 'Health Risk'] = 'Malnutrition Risk'  
+df.loc[(df['BMI'] >18.5) & (df['BMI'] <= 24.9), 'Health Risk'] = 'Low Risk'
+df.loc[(df['BMI'] >25) & (df['BMI'] <= 30), 'Health Risk']='Enhanced Risk'
+df.loc[(df['BMI'] >30) & (df['BMI'] <= 34.9), 'Health Risk']= 'Medium Risk'
+df.loc[(df['BMI'] >35) & (df['BMI'] <= 39.9), 'Health Risk']='High Risk'
+df.loc[df['BMI'] >= 40, 'Health Risk'] = 'Very High Risk'
+df['BMI Category'].count()
